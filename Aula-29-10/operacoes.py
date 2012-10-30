@@ -63,8 +63,8 @@ class Operacoes:
 		t3.start()
 
 
-# Acessar a classe no modo interativo: 
+# Importar a classe no modo interativo do python: 
 # 	- primeiro importar: from operacoes import Operacoes
 #	- segundo instanciar: operacoes = Operacoes('ip do servidor')
-#	- terceiro usar métodos da classe: operacoes.soma(5,7), operacoes.produto(4,7) e operacoes.fatorial(6)
+#	- Usar métodos da classe: operacoes.soma(5,7), operacoes.produto(4,7) e operacoes.fatorial(6)
 
