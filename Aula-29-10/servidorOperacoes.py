@@ -6,6 +6,9 @@ import threading
 import time
 import exceptions
 
+ip = '10.3.1.49'
+porta = 8888
+
 def soma(dados,dadosCliente):
 	socketServer = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 	resultado = int(dados[1])+int(dados[2])
@@ -55,7 +58,7 @@ def novaOperacao(dados,dadosCliente):
 		t1.start()
 
 socketServer = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-socketServer.bind(('10.3.1.49',8888))
+socketServer.bind((ip,porta))
 
 while True:	
 	dados, dadosCliente = socketServer.recvfrom(1024)
