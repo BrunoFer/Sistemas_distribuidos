@@ -3,36 +3,56 @@
 import socket
 import threading
 import time
+import exceptions
 
-def op_soma(a,b,ip):
+ip = '10.3.1.50'
+porta = 6666
+
+def op_soma(a,b,ipServidor):
+	global ip,porta
 	socketSoma=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-	socketSoma.bind(('10.3.1.50',8888))
+	try:
+		socketSoma.bind((ip,porta))
+	except:
+		print	
+
 	if str(a).isalpha() or str(b).isalpha():
 		print "\nCaracter inválido!"
-	else:	
+	else:
 		cabecalho = "sum {0} {1}".format(a,b)
-		socketSoma.sendto(cabecalho,(ip,8888))
+		socketSoma.sendto(cabecalho,(ipServidor,8888))
 		soma, dadosServer = socketSoma.recvfrom(1024)
-		time.sleep(5)
-		print "\nResultado da Soma = ", soma
+		print "\nResultado da Soma de {0} com {1} = {2}".format(a,b,soma)
 	socketSoma.close()
+	time.sleep(5)
 
-def op_produto(a,b,ip):
+def op_produto(a,b,ipServidor):
+	global ip,porta
 	socketProduto=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-	socketProduto.bind(('10.3.1.50',7777))
+	
+	try:
+		socketSoma.bind((ip,porta))
+	except:
+		print
+
 	if str(a).isalpha() or str(b).isalpha():
 		print "\nCaracter inválido!"
 	else:	
 		cabecalho = "pro {0} {1}".format(a,b)
-		socketProduto.sendto(cabecalho,(ip,8888))
-		time.sleep(5)
+		socketProduto.sendto(cabecalho,(ipServidor,8888))
 		produto, dadosServer = socketProduto.recvfrom(1024)
-		print "\nResultado Produto = ", produto
+		print "\nResultado do Produto de {0} com {1} = {2}".format(a,b,produto)
 	socketProduto.close()
 
-def op_fatorial(a,ip):
+def op_fatorial(a,ipServidor):
+	global ip,porta
 	socketFatorial=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-	socketFatorial.bind(('10.3.1.50',6666))
+	
+	try:
+		socketSoma.bind((ip,porta))
+	except:
+		print
+
 	if a<0:
 		print "\nNão foi possível calcular o fatorial de {0}".format(a)
 	elif str(a).isalpha():
@@ -41,30 +61,30 @@ def op_fatorial(a,ip):
 		print "\nFatorial de 0 = 1"
 	else:
 		cabecalho = "fat {0}".format(a)
-		socketFatorial.sendto(cabecalho,(ip,8888))
+		socketFatorial.sendto(cabecalho,(ipServidor,8888))
 		resultado, dadosServer = socketFatorial.recvfrom(1024)
-		print "\nResultado do Fatorial = ", resultado
+		print "\nResultado do Fatorial de {0} = {1}".format(a,resultado)
 	socketFatorial.close()
 
 class Operacoes:
-	def __init__(self,ip):
-		self.ip=ip
+	ipServidor = None
+	def __init__(self,ipServ):
+		self.ipServidor=ipServ
 	
 	def soma(self,a,b):
-		t1=threading.Thread(target=op_soma,args=(a,b,self.ip))
+		t1=threading.Thread(target=op_soma,args=(a,b,self.ipServidor))
 		t1.start()
 
 	def produto(self,a,b):
-		t2=threading.Thread(target=op_produto,args=(a,b,self.ip))
+		t2=threading.Thread(target=op_produto,args=(a,b,self.ipServidor))
 		t2.start()
 	
 	def fatorial(self,a):
-		t3=threading.Thread(target=op_fatorial,args=(a,self.ip))
+		t3=threading.Thread(target=op_fatorial,args=(a,self.ipServidor))
 		t3.start()
 
 
-# Importar a classe no modo interativo do python: 
+# Acessar a classe no modo interativo:
 # 	- primeiro importar: from operacoes import Operacoes
 #	- segundo instanciar: operacoes = Operacoes('ip do servidor')
-#	- Usar métodos da classe: operacoes.soma(5,7), operacoes.produto(4,7) e operacoes.fatorial(6)
-
+#	- terceiro usar métodos da classe: operacoes.soma(5,7), operacoes.produto(4,7) e operacoes.fatorial(6)
