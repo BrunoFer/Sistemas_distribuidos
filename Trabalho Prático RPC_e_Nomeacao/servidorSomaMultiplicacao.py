@@ -10,6 +10,8 @@ import pickle
 
 IP_SERVIDOR = '10.3.1.51'
 PORTA_SERVIDOR = 7777
+
+# gerando as chaves privada e pública para comunicação com os clientes
 private = RSA.generate(1024)
 public = private.publickey()
 

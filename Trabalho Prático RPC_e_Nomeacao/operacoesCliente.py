@@ -15,11 +15,11 @@ PORT_SERVER_DOMAIN = 8888
 PORT_SERVER_OPERATION = 7777
 K = ""
 
-#Utilizando criptografia Simétrica.
+#Utilizando criptografia Simétrica para comunicação com o servidor de nomes.
 chave = 'titicadegalinhas'
 cifra = AES.new(chave, AES.MODE_ECB)
 
-#Utilizando criptografia Assimétrica.
+#Utilizando criptografia Assimétrica para comunicação com os servidores de operações.
 blah = randpool.RandomPool()
 private = RSA.generate(1024, blah.get_bytes)
 public = private.publickey()
